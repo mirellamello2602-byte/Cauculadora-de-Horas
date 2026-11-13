@@ -9,4 +9,61 @@
     <h1>Calculadora de Horas</h1>
     <p>Faça cálculos de horas e minutos.</p>
 </body>
+
+<script>
+function somarHoras() {
+
+    let horas1 = Number(document.getElementById("horas").value);
+    let minutos1 = Number(document.getElementById("minutos").value);
+
+    let horas2 = Number(document.getElementById("horas2").value);
+    let minutos2 = Number(document.getElementById("minutos2").value);
+
+    let totalMinutos = (horas1 * 60 + minutos1)
+                     + (horas2 * 60 + minutos2);
+
+    let horas = Math.floor(totalMinutos / 60);
+    let minutos = totalMinutos % 60;
+
+    document.getElementById("resultado").innerText =
+        horas + "h " + String(minutos).padStart(2, "0") + "min";
+}
+</script>
+    
+    
 </html>
+
+
+<h2>Digite o tempo</h2>
+
+<label>Horas:</label>
+<input type="number" id="horas">
+
+<label>Minutos:</label>
+<input type="number" id="minutos">
+
+
+<h2>Segundo tempo</h2>
+
+<label>Horas:</label>
+<input type="number" id="horas2" min="0">
+
+<label>Minutos:</label>
+<input type="number" id="minutos2" min="0" max="59">
+
+
+
+<h2>Escolha a operação</h2>
+
+
+<button onclick="somarHoras()">Somar (+)</button>
+
+<button>Subtrair (-)</button>
+
+<button>Multiplicar (×)</button>
+
+<button>Dividir (÷)</button>
+
+<h2>Resultado</h2>
+<p id="resultado">0h 00min</p>
+
