@@ -2,68 +2,371 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <title>Calculadora de Horas</title>
-</head>
-<body>
-    <h1>Calculadora de Horas</h1>
-    <p>Faça cálculos de horas e minutos.</p>
-</body>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora de Horas</title>
 
-<script>
-function somarHoras() {
-
-    let horas1 = Number(document.getElementById("horas").value);
-    let minutos1 = Number(document.getElementById("minutos").value);
-
-    let horas2 = Number(document.getElementById("horas2").value);
-    let minutos2 = Number(document.getElementById("minutos2").value);
-
-    let totalMinutos = (horas1 * 60 + minutos1)
-                     + (horas2 * 60 + minutos2);
-
-    let horas = Math.floor(totalMinutos / 60);
-    let minutos = totalMinutos % 60;
-
-    document.getElementById("resultado").innerText =
-        horas + "h " + String(minutos).padStart(2, "0") + "min";
+<style>
+* {
+  box-sizing: border-box;
 }
-</script>
-    
-    
-</html>
 
+body {
+  font-family: Arial, sans-serif;
+  background: #f1f4fa;
+  margin: 0;
+  padding: 20px;
+  color: #243047;
+}
 
-<h2>Digite o tempo</h2>
+.container {
+  max-width: 480px;
+  margin: 30px auto;
+  padding: 24px;
+  background: white;
+  border-radius: 18px;
+  box-shadow: 0 5px 25px #00000012;
+}
 
-<label>Horas:</label>
-<input type="number" id="horas">
+h1 {
+  text-align: center;
+  color: #2646a0;
+  font-size: 26px;
+}
 
-<label>Minutos:</label>
-<input type="number" id="minutos">
+h2 {
+  font-size: 17px;
+  margin-top: 24px;
+}
 
+p {
+  text-align: center;
+  color: #68758a;
+}
+
+.campos {
+  display: flex;
+  gap: 12px;
+}
+
+.campo {
+  flex: 1;
+  min-width: 0;
+}
+
+label {
+  display: block;
+  margin: 10px 0 6px;
+  font-size: 14px;
+}
+
+input {
+  width: 100%;
+  padding: 13px;
+  border: 1px solid #cbd5e1;
+  border-radius: 9px;
+  font-size: 17px;
+}
+
+.botoes {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-top: 18px;
+}
+
+button {
+  background: #3459c7;
+  color: white;
+  border: none;
+  border-radius: 9px;
+  padding: 14px 8px;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+button:active {
+  background: #203e99;
+}
+
+.resultado {
+  background: #eaf0ff;
+  border-radius: 12px;
+  padding: 20px;
+  margin-top: 22px;
+  text-align: center;
+}
+
+#resultado, #resultadoTrabalho {
+  font-size: 28px;
+  font-weight: bold;
+  color: #2548ac;
+  margin: 8px 0;
+}
+
+.limpar {
+  background: #64748b;
+  width: 100%;
+  margin-top: 12px;
+}
+
+.separador {
+  border-top: 1px solid #e2e8f0;
+  margin-top: 30px;
+}
+
+.botaoTrabalho {
+  width: 100%;
+  margin-top: 16px;
+}
+
+.aviso {
+  color: #c0392b;
+  font-size: 14px;
+  text-align: center;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Calculadora de Horas</h1>
+<p>Calcule horas e minutos facilmente</p>
+
+<h2>Primeiro tempo</h2>
+<div class="campos">
+  <div class="campo">
+    <label for="horas">Horas</label>
+    <input type="number" id="horas" min="0" value="8">
+  </div>
+  <div class="campo">
+    <label for="minutos">Minutos</label>
+    <input type="number" id="minutos" min="0" max="59" value="30">
+  </div>
+</div>
 
 <h2>Segundo tempo</h2>
-
-<label>Horas:</label>
-<input type="number" id="horas2" min="0">
-
-<label>Minutos:</label>
-<input type="number" id="minutos2" min="0" max="59">
-
-
+<div class="campos">
+  <div class="campo">
+    <label for="horas2">Horas</label>
+    <input type="number" id="horas2" min="0" value="2">
+  </div>
+  <div class="campo">
+    <label for="minutos2">Minutos</label>
+    <input type="number" id="minutos2" min="0" max="59" value="15">
+  </div>
+</div>
 
 <h2>Escolha a operação</h2>
 
+<div class="botoes">
+  <button onclick="calcular('somar')">+ Somar</button>
+  <button onclick="calcular('subtrair')">− Subtrair</button>
+  <button onclick="calcular('multiplicar')">× Multiplicar</button>
+  <button onclick="calcular('dividir')">÷ Dividir</button>
+</div>
 
-<button onclick="somarHoras()">Somar (+)</button>
+<p style="font-size:12px">
+Na multiplicação e divisão, o segundo tempo
+é usado como um número decimal:
+2h15 representa 2,25.
+</p>
 
-<button>Subtrair (-)</button>
+<div class="resultado">
+  <small>RESULTADO</small>
+  <div id="resultado">0h 00min</div>
+</div>
 
-<button>Multiplicar (×)</button>
+<button class="limpar" onclick="limpar()">Limpar</button>
 
-<button>Dividir (÷)</button>
+<div class="separador"></div>
 
-<h2>Resultado</h2>
-<p id="resultado">0h 00min</p>
+<h2>Horas trabalhadas</h2>
 
+<div class="campos">
+  <div class="campo">
+    <label for="entrada">Entrada</label>
+    <input type="time" id="entrada" value="08:00">
+  </div>
+  <div class="campo">
+    <label for="saida">Saída</label>
+    <input type="time" id="saida" value="17:00">
+  </div>
+</div>
+
+<h2>Intervalo</h2>
+<div class="campos">
+  <div class="campo">
+    <label for="intervaloH">Horas</label>
+    <input type="number" id="intervaloH" min="0" value="1">
+  </div>
+  <div class="campo">
+    <label for="intervaloM">Minutos</label>
+    <input type="number" id="intervaloM" min="0" max="59" value="0">
+  </div>
+</div>
+
+<button class="botaoTrabalho" onclick="calcularTrabalho()">
+  Calcular horas trabalhadas
+</button>
+
+<div class="resultado">
+  <small>TOTAL TRABALHADO</small>
+  <div id="resultadoTrabalho">0h 00min</div>
+</div>
+
+<p id="aviso" class="aviso"></p>
+
+</div>
+
+<script>
+
+// Lê e valida uma duração.
+function lerTempo(idHoras, idMinutos) {
+  const h = document.getElementById(idHoras).value;
+  const m = document.getElementById(idMinutos).value;
+
+  if (h.trim() === "" || m.trim() === "") {
+    throw new Error("Preencha horas e minutos.");
+  }
+
+  const horas = Number(h);
+  const minutos = Number(m);
+
+  if (!Number.isSafeInteger(horas) ||
+      !Number.isSafeInteger(minutos) ||
+      horas < 0 || minutos < 0 || minutos > 59) {
+    throw new Error("Digite horas válidas e minutos de 0 a 59.");
+  }
+
+  return horas * 60 + minutos;
+}
+
+// Converte minutos para horas e minutos.
+function formatarTempo(total) {
+  if (!Number.isFinite(total)) {
+    throw new Error("Resultado inválido.");
+  }
+
+  const negativo = total < 0;
+  const segundos = Math.round(Math.abs(total) * 60);
+
+  const horas = Math.floor(segundos / 3600);
+  const minutos = Math.floor((segundos % 3600) / 60);
+  const restoSegundos = segundos % 60;
+
+  let texto = (negativo ? "-" : "") +
+    horas + "h " +
+    String(minutos).padStart(2, "0") + "min";
+
+  if (restoSegundos !== 0) {
+    texto += " " + restoSegundos + "s";
+  }
+
+  return texto;
+}
+
+// Realiza as quatro operações.
+function calcular(operacao) {
+  const resultado = document.getElementById("resultado");
+
+  try {
+    const tempo1 = lerTempo("horas", "minutos");
+    const tempo2 = lerTempo("horas2", "minutos2");
+
+    let total;
+
+    switch (operacao) {
+      case "somar":
+        total = tempo1 + tempo2;
+        break;
+
+      case "subtrair":
+        total = tempo1 - tempo2;
+        break;
+
+      case "multiplicar":
+        total = tempo1 * (tempo2 / 60);
+        break;
+
+      case "dividir":
+        if (tempo2 === 0) {
+          throw new Error("Não é possível dividir por zero.");
+        }
+        total = tempo1 / (tempo2 / 60);
+        break;
+    }
+
+    resultado.innerText = formatarTempo(total);
+
+  } catch (erro) {
+    resultado.innerText = erro.message;
+  }
+}
+
+// Limpa os campos da calculadora.
+function limpar() {
+  ["horas", "minutos", "horas2", "minutos2"]
+    .forEach(id => {
+      document.getElementById(id).value = "0";
+    });
+
+  document.getElementById("resultado").innerText =
+    "0h 00min";
+}
+
+// Converte horário HH:MM em minutos.
+function horarioEmMinutos(horario) {
+  if (!/^\d{2}:\d{2}$/.test(horario)) {
+    throw new Error("Informe entrada e saída.");
+  }
+
+  const partes = horario.split(":").map(Number);
+  return partes[0] * 60 + partes[1];
+}
+
+// Calcula a jornada de trabalho.
+function calcularTrabalho() {
+  const aviso = document.getElementById("aviso");
+  const resultado = document.getElementById("resultadoTrabalho");
+
+  aviso.innerText = "";
+
+  try {
+    const entrada = horarioEmMinutos(
+      document.getElementById("entrada").value
+    );
+
+    const saida = horarioEmMinutos(
+      document.getElementById("saida").value
+    );
+
+    const intervalo = lerTempo("intervaloH", "intervaloM");
+
+    // Se a saída for anterior à entrada,
+    // consideramos que ocorreu no dia seguinte.
+    let duracao = saida - entrada;
+
+    if (duracao < 0) {
+      duracao += 1440;
+    }
+
+    if (intervalo > duracao) {
+      throw new Error("O intervalo é maior que a jornada.");
+    }
+
+    const trabalhado = duracao - intervalo;
+
+    resultado.innerText = formatarTempo(trabalhado);
+
+  } catch (erro) {
+    aviso.innerText = erro.message;
+    resultado.innerText = "—";
+  }
+}
+</script>
+
+</body>
+</html>
